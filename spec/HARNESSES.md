@@ -17,6 +17,7 @@ Cells marked † are taken from third-party documentation and have not been chec
 | Codex | `codex` | `.codex/agents/<name>.toml` | `~/.codex/agents/<name>.toml` | TOML |
 | Gemini CLI | `gemini-cli` | `.gemini/agents/<name>.md` | `~/.gemini/agents/<name>.md` | Markdown + YAML frontmatter |
 | Cursor | `cursor` | `.cursor/agents/<name>.md` | `~/.cursor/agents/<name>.md` | Markdown + YAML frontmatter |
+| Kiro | `kiro` | `.kiro/agents/<name>.md` | `~/.kiro/agents/<name>.md` | Markdown + YAML frontmatter (JSON also accepted) |
 | OpenCode | `opencode` | `.opencode/agents/<name>.md` † | `~/.config/opencode/agents/<name>.md` † | Markdown + YAML frontmatter |
 | Grok Build | `grok` | `.grok/agents/<name>.md` † | `~/.grok/agents/<name>.md` † | Markdown † |
 | Kilo Code | `kilo` | `.kilo/agents/<name>.md` † | † | Markdown † |
@@ -102,3 +103,22 @@ Gemini CLI subagents do not inherit tool permissions, so an absent `tools` field
 | any other binding `tools` restriction | Refuse |
 | advisory `tools` restriction | Warn |
 | `effort`, `max-turns`, `skills`, `mcp-servers`, `invocation` | Warn |
+
+### Kiro
+
+Kiro reads the same fields from Markdown frontmatter or JSON. Installers SHOULD write Markdown, so the body stays readable. Project agents are loaded only when the workspace is trusted.
+
+| CAF | Kiro |
+| --- | --- |
+| `name`, `description` | `name`, `description` |
+| body | Markdown body (the `prompt` field in JSON) |
+| `model` tiers | Installer table; `inherit` leaves `model` unset |
+| `effort` | Warn |
+| `tools` | `tools`: `read` → `read`; `search` → `read` †; `edit` → `write`; `execute` → `shell`; `web` → `web`; `agent` → `subagent`; `mcp:s` → `@s`; `mcp:s/t` → `@s/t`; `*` → `*` |
+| `tools` with `todo` | Warn: there is no tag for `todo_list` |
+| `disallowed-tools` | `excludedTools`, same mapping |
+| `max-turns` | Warn |
+| `skills` | Bundled skills go to `.kiro/skills/`; each is listed in `resources` as `skill://.kiro/skills/<skill>/SKILL.md`, which loads its name and description at startup and the rest on demand |
+| `mcp-servers` | `mcpServers` (same keys; `${VAR}` references are kept) |
+| `invocation` | Warn |
+| `harness/kiro/files/` | copied into `.kiro/` |

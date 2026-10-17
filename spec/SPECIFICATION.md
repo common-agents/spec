@@ -7,7 +7,7 @@ version: "1.0.0-draft"
 
 **Version 1.0.0-draft**
 
-The Common Agent Format (CAF) describes a custom agent once, in plain Markdown, so that it can be installed into any coding harness: Claude Code, GitHub Copilot, Codex, Gemini CLI, Cursor, OpenCode, Grok Build and others.
+The Common Agent Format (CAF) describes a custom agent once, in plain Markdown, so that it can be installed into any coding harness: Claude Code, GitHub Copilot, Codex, Gemini CLI, Cursor, Kiro, OpenCode, Grok Build and others.
 
 A CAF agent is a directory with an `AGENT.md` file at its root. `AGENT.md` holds YAML frontmatter (metadata and portable settings) followed by a Markdown body (the agent's instructions). Optional subdirectories carry harness-specific settings and files, bundled skills, and reference material.
 
@@ -352,6 +352,7 @@ Installers MUST NOT overwrite an existing file that they did not create without 
 | `codex` | OpenAI Codex |
 | `gemini-cli` | Gemini CLI |
 | `cursor` | Cursor |
+| `kiro` | Kiro (IDE and CLI) |
 | `opencode` | OpenCode |
 | `grok` | Grok Build |
 | `kilo` | Kilo Code |
