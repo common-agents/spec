@@ -6,7 +6,7 @@ import { marked } from 'marked';
 import { gfmHeadingId, getHeadingList } from 'marked-gfm-heading-id';
 
 const SITE_URL = 'https://commonagents.io';
-const REPO_URL = 'https://github.com/commonagents/spec';
+const REPO_URL = 'https://github.com/common-agents/spec';
 const OUT = 'dist';
 
 marked.use(gfmHeadingId());
