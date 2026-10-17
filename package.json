@@ -1,15 +1,11 @@
 {
-  "name": "commonagents-site",
+  "name": "common-agent-format",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
-    "serve": "npm run build && npx --yes serve@14.2.4 dist",
     "validate": "node scripts/validate.mjs"
   },
   "devDependencies": {
-    "marked": "^15.0.7",
-    "marked-gfm-heading-id": "^4.1.1",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "yaml": "^2.7.0"

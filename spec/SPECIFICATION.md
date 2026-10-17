@@ -359,7 +359,7 @@ Installers MUST NOT overwrite an existing file that they did not create without 
 
 New IDs are added by pull request to this spec. Until an ID is listed, tools SHOULD use a reverse-domain name (`com.example.myharness`) to avoid collisions.
 
-See [Harness mappings](harnesses.html) for where each harness keeps its agents and how each CAF field is translated.
+See [Harness mappings](HARNESSES.md) for where each harness keeps its agents and how each CAF field is translated.
 
 ## Installers
 
@@ -376,7 +376,7 @@ An installer turns a CAF agent into a harness's native files. [Agent Manager](ht
 
 ## Validation
 
-A [JSON Schema](schema/caf-1.0.schema.json) for the frontmatter is published with this spec. It checks field types and formats. It cannot check that `name` matches the directory name, or that bundled skill names exist; validators MUST check those separately.
+A [JSON Schema](../schema/caf-1.0.schema.json) for the frontmatter is published with this spec. It checks field types and formats. It cannot check that `name` matches the directory name, or that bundled skill names exist; validators MUST check those separately.
 
 ## Relationship to other formats
 

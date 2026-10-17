@@ -18,24 +18,29 @@ You keep a project's documentation in step with its code.
 - [JSON Schema for the frontmatter](schema/caf-1.0.schema.json)
 - [Example agents](examples/)
 
+Website: [commonagents.io](https://commonagents.io). Its source is in a separate repository; the spec pages are generated from the Markdown files here.
+
 ## Repository layout
 
 | Path | Contents |
 | --- | --- |
-| `spec/` | The specification and harness mappings, in Markdown. These are the source of the site's spec pages. |
+| `spec/` | The specification and harness mappings. |
 | `schema/` | JSON Schema for `AGENT.md` frontmatter. |
 | `examples/` | Example CAF agents. |
-| `site/` | Home page, page layout and static assets. |
 | `scripts/validate.mjs` | Validates CAF agents against the schema and naming rules. |
-| `build.mjs` | Builds the static site into `dist/`. |
 
-## Working on it
+## Validating agents
 
 ```bash
 npm install
-npm run validate          # check examples/ (or pass other directories)
-npm run build             # write the site to dist/
-npm run serve             # build and serve dist/ locally
+npm run validate                       # checks examples/
+node scripts/validate.mjs path/to/dir  # checks every agent folder in dir
 ```
 
-`dist/` is plain static HTML and can be hosted anywhere. The included GitHub Actions workflow deploys it to GitHub Pages on pushes to `main`, with a `CNAME` for `commonagents.io`.
+## Contributing
+
+Changes to the format are made by pull request. Corrections to [harness mappings](spec/HARNESSES.md) are especially welcome, since harnesses change their agent formats often.
+
+## Installers
+
+[Agent Manager](https://github.com/ai-agent-manager/agent-manager) is the reference installer.

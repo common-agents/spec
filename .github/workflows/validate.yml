@@ -1,0 +1,37 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run validate
+
+  # Rebuilds commonagents.io when the spec changes. Skipped until the
+  # CLOUDFLARE_DEPLOY_HOOK secret (a Cloudflare Pages deploy hook URL) is set.
+  deploy-site:
+    if: github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK not set; skipping site rebuild"
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"
