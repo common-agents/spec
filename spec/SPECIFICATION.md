@@ -363,7 +363,7 @@ See [Harness mappings](harnesses.html) for where each harness keeps its agents a
 
 ## Installers
 
-An installer turns a CAF agent into a harness's native files. [Agent Manager](https://github.com/agentmanager/agentmanager) is the reference installer. A conforming installer:
+An installer turns a CAF agent into a harness's native files. [Agent Manager](https://github.com/ai-agent-manager/agent-manager) is the reference installer. A conforming installer:
 
 1. MUST validate `AGENT.md` against this spec, and refuse to install it if a required field is missing or invalid.
 2. MUST skip a harness whose `harness.<id>.enabled` is `false`.
