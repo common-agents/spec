@@ -209,7 +209,9 @@ The capability names match the tool aliases GitHub Copilot already uses for cust
 
 A harness-native tool name (for example `Bash(git:*)` in Claude Code) MAY be given in `harness.<id>.settings`. Native names MUST NOT appear in the top-level `tools` list.
 
-Leaving out `edit`, `execute`, `web`, `agent` or an `mcp:` entry is a **binding** restriction: it stops the agent changing files, running commands, reaching the network or starting other agents. Leaving out `read`, `search` or `todo` is **advisory**, since those capabilities neither change anything nor reach the network, and some harnesses cannot remove them. See [Installers](#installers) for how each kind is handled.
+Leaving out `edit`, `execute`, `web` or `agent` is a **binding** restriction: it stops the agent changing files, running commands, reaching the network or starting other agents. Leaving out `read`, `search` or `todo` is **advisory**, since those capabilities neither change anything nor reach the network, and some harnesses cannot remove them. See [Installers](#installers) for how each kind is handled.
+
+For MCP, limits on servers the agent declares in `mcp-servers` are binding: leaving such a server out of `tools`, or listing only some of its tools. MCP servers the user has configured in the harness itself are outside the agent definition. Some harnesses give every agent those servers; installers SHOULD warn when they cannot stop that.
 
 #### `disallowed-tools`
 
@@ -317,7 +319,7 @@ A harness directory MAY contain:
 
 Settings are written in the target harness's own field names, so `permissionMode` for Claude Code and `model_reasoning_effort` for Codex. Installers do not translate them.
 
-Settings are merged in this order, later entries overriding earlier ones key by key:
+Settings are merged in this order, later entries overriding earlier ones key by key. Nested maps are merged the same way; lists and other values are replaced whole.
 
 1. Values the installer derives from portable fields.
 2. The harness directory's settings file.
@@ -364,7 +366,7 @@ See [Harness mappings](HARNESSES.md) for where each harness keeps its agents and
 
 ## Installers
 
-An installer turns a CAF agent into a harness's native files. [Agent Manager](https://github.com/ai-agent-manager/agent-manager) is the reference installer. A conforming installer:
+An installer turns a CAF agent into a harness's native files. The reference implementation is [`caf`](https://github.com/common-agents/cli), published on npm as `@commonagents/cli`; other installers, such as [Agent Manager](https://github.com/ai-agent-manager/agent-manager), can use it as a library. A conforming installer:
 
 1. MUST validate `AGENT.md` against this spec, and refuse to install it if a required field is missing or invalid.
 2. MUST skip a harness whose `harness.<id>.enabled` is `false`.

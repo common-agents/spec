@@ -4,7 +4,7 @@ title: Harness mappings
 
 # Harness mappings
 
-This page is informative, not part of the specification. It records where each harness keeps its agents and how an installer translates each CAF field. Harnesses change their formats often; corrections are welcome by pull request.
+This page is informative, not part of the specification. It records where each harness keeps its agents and how an installer translates each CAF field. The reference CLI, [`caf`](https://github.com/common-agents/cli), implements these mappings. Harnesses change their formats often; corrections are welcome by pull request.
 
 Cells marked † are taken from third-party documentation and have not been checked against the harness's own docs.
 
@@ -53,7 +53,7 @@ Cells marked † are taken from third-party documentation and have not been chec
 | `model` tiers | Installer table; `inherit` leaves `model` unset |
 | `effort` | Warn |
 | `tools` | `tools`: capability names are Copilot's own aliases; `mcp:s` → `s/*`; `mcp:s/t` → `s/t` |
-| `disallowed-tools` | Expanded into an allowlist in `tools`. Refuse if `tools` is absent and the remaining set cannot be listed. |
+| `disallowed-tools` | Expanded into an allowlist in `tools`. MCP tools from servers not declared in `mcp-servers` are then unavailable, with a warning. |
 | `max-turns` | Warn |
 | `skills` | Bundled skills go to `.github/skills/`; not preloaded |
 | `mcp-servers` | `mcp-servers` (cloud agent only; ignored by IDEs, so warn when the user installs for VS Code) |
@@ -71,7 +71,8 @@ Cells marked † are taken from third-party documentation and have not been chec
 | `effort` | `model_reasoning_effort` |
 | `tools` without `execute` | `features.shell_tool = false` |
 | `tools` without `edit` | Refuse: Codex agents cannot override `sandbox_mode`, so file access follows the parent session |
-| `tools` without `web` | `web_search = "disabled"` † |
+| `tools` without `web` | Refuse: there is no per-agent setting for web access |
+| `tools` without `agent` | Refuse: there is no per-agent setting for starting other agents |
 | `tools` without `read` / `search` | Warn (advisory restriction) |
 | `max-turns` | Warn |
 | `skills` | Bundled skills go to `.agents/skills/`; not preloaded |
@@ -86,9 +87,10 @@ Cells marked † are taken from third-party documentation and have not been chec
 | body | Markdown body |
 | `model` tiers | Installer table |
 | `effort` | Warn |
-| `tools` | `tools` †: `read` → `read_file`; `search` → `glob`, `grep_search`; `edit` → `write_file`, `replace`; `execute` → `run_shell_command`; `web` → `web_fetch`, `google_web_search` |
+| `tools` | `tools` †: `read` → `read_file`; `search` → `glob`, `grep_search`; `edit` → `write_file`, `replace`; `execute` → `run_shell_command`; `web` → `web_fetch`, `google_web_search`; `todo` → `write_todos`. `agent` and MCP entries are left out, with a warning. |
 | `max-turns` | `max_turns` † |
-| `skills`, `mcp-servers`, `invocation` | Warn |
+| `skills` | Bundled skills go to `.gemini/skills/`; not preloaded |
+| `mcp-servers`, `invocation` | Warn |
 
 Gemini CLI subagents do not inherit tool permissions, so an absent `tools` field is written as the full list of built-in tools.
 
@@ -102,7 +104,8 @@ Gemini CLI subagents do not inherit tool permissions, so an absent `tools` field
 | `tools` without `edit` and `execute` | `readonly: true` † |
 | any other binding `tools` restriction | Refuse |
 | advisory `tools` restriction | Warn |
-| `effort`, `max-turns`, `skills`, `mcp-servers`, `invocation` | Warn |
+| `skills` | Bundled skills go to `.cursor/skills/`; not preloaded |
+| `effort`, `max-turns`, `mcp-servers`, `invocation` | Warn |
 
 ### Kiro
 
