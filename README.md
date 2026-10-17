@@ -44,3 +44,7 @@ Changes to the format are made by pull request. Corrections to [harness mappings
 ## Installers
 
 [Agent Manager](https://github.com/ai-agent-manager/agent-manager) is the reference installer.
+
+## Licence
+
+Code in this repository (the validator, schema and examples) is licensed under [Apache 2.0](LICENSE). The specification documents in [`spec/`](spec/) are licensed under [CC-BY-4.0](spec/LICENSE).
