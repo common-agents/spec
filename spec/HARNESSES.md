@@ -21,7 +21,7 @@ Cells marked † are taken from third-party documentation and have not been chec
 | OpenCode | `opencode` | `.opencode/agents/<name>.md` † | `~/.config/opencode/agents/<name>.md` † | Markdown + YAML frontmatter |
 | Grok Build | `grok` | `.grok/agents/<name>.md` † | `~/.grok/agents/<name>.md` † | Markdown † |
 | Kilo Code | `kilo` | `.kilo/agents/<name>.md` † | † | Markdown † |
-| Antigravity | `antigravity` | `.agents/agents/<name>.md` † | † | Markdown † |
+| Antigravity | `antigravity` | `.agents/agents/<name>/agent.md` | `~/.gemini/config/agents/<name>/agent.md` | Markdown + YAML frontmatter |
 
 ## Field mappings
 
@@ -122,3 +122,30 @@ Kiro reads the same fields from Markdown frontmatter or JSON. Installers SHOULD 
 | `mcp-servers` | `mcpServers` (same keys; `${VAR}` references are kept) |
 | `invocation` | Warn |
 | `harness/kiro/files/` | copied into `.kiro/` |
+
+### Antigravity
+
+Antigravity accepts either `<name>.md` or a folder `<name>/agent.md`. Installers SHOULD use the folder form, so bundled skills and references can sit next to the agent: paths in `skills` are resolved relative to the agent file.
+
+| CAF | Antigravity |
+| --- | --- |
+| `name`, `description` | `name`, `description` |
+| body | Markdown body |
+| `model` tiers | `inherit` → `inherit`, `fast` → `flash`, `balanced` → `flash` (the harness default), `strong` → `pro` |
+| `effort` | Warn |
+| `tools` | `tools` (exact tool names): `read` → `view_file`, `list_dir`; `search` → `grep_search`, `find_by_name`; `edit` → `replace_file_content`, `write_to_file` †; `execute` → `run_command`; `web` → `read_url_content`, `search_web` †; `agent` → `invoke_subagent`; `todo` → `manage_task` |
+| `tools` absent | Write every built-in tool name. Antigravity's default for `tools` is an empty list, so leaving it out would give the agent no tools. |
+| `tools` with `mcp:s` | Add server `s` to `mcpServers` |
+| `tools` with `mcp:s/t` | Refuse: tools cannot be limited to one tool per server † |
+| `disallowed-tools` | Expanded into an allowlist in `tools`; there is no denylist field |
+| `max-turns` | Warn |
+| `skills` | Bundled skills are copied to `<name>/skills/<skill>/` and listed as `skills/<skill>`. Other skills are reached through inherited customisations (`inheritCustomizations`, on by default). |
+| `mcp-servers` | `mcpServers`, as a list of server objects † |
+| `invocation.user` | `mainAgent` |
+| `invocation.model` | `subagent` |
+| `references/`, `assets/` | Copied next to `agent.md` |
+| `harness/antigravity/files/` | copied into `.agents/` |
+
+Antigravity documents that a misspelled tool name can make the agent hang, so installers SHOULD check generated tool names against the installed CLI version.
+
+Common native settings to put under `harness.antigravity.settings`: `commandExecutionPolicy` (`off`, `auto`, `eager`, `sandbox`), `rules`, `agents`, `inheritCustomizations` and `excludeDefaultComponents`.
