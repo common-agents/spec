@@ -21,7 +21,7 @@ jobs:
       - run: npm run validate
 
   # Rebuilds commonagents.io when the spec changes. Skipped until the
-  # CLOUDFLARE_DEPLOY_HOOK secret (a Cloudflare Pages deploy hook URL) is set.
+  # CLOUDFLARE_DEPLOY_HOOK secret (a Workers Builds deploy hook URL) is set.
   deploy-site:
     if: github.event_name == 'push'
     needs: validate
