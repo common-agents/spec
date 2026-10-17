@@ -1,0 +1,8 @@
+# Claude Code native frontmatter keys, merged over the generated definition.
+disallowedTools: [Write, Edit, NotebookEdit]
+hooks:
+  PreToolUse:
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: .claude/hooks/block-git-push.sh

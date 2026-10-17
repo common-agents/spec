@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{fullTitle}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonical}}">
+  <meta property="og:title" content="{{fullTitle}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true">CAF</span>
+        <span class="brand__name">Common Agent Format</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="specification.html">Specification</a>
+        <a href="harnesses.html">Harnesses</a>
+        <a href="schema/caf-1.0.schema.json">Schema</a>
+        <a href="{{repo}}">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="{{pageClass}}">
+    {{toc}}
+    <div class="page__main">
+      {{content}}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>The Common Agent Format is an open specification. Draft 1.0. <a href="{{repo}}">Contribute on GitHub</a>.</p>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>
